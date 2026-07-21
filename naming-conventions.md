@@ -1,54 +1,56 @@
 # Naming Conventions
 
-This document defines the naming conventions used in the **SIM Card Management Data Warehouse** project. It reflects the actual naming approach used across the Bronze, Silver, and Gold layers so that the warehouse remains consistent, readable, and easy to maintain.
+This document describes the naming conventions used in the **SIM Card Management Data Warehouse** project. The naming approach was chosen to keep the warehouse consistent, readable, and easy to understand across the Bronze, Silver, and Gold layers.
 
 ## General Principles
 
-The following rules are used throughout the project:
+Object names in this project follow a simple and consistent structure:
 
-- Use **snake_case** for all object names.
-- Use **lowercase** letters only.
-- Separate words with underscores (`_`).
-- Use **English** for all names.
-- Avoid SQL reserved words.
-- Keep names clear, descriptive, and consistent across the warehouse.
+- **snake_case** is used for all object names.
+- **lowercase** letters are used throughout.
+- Words are separated with underscores (`_`).
+- **English** is used for all names.
+- SQL reserved words are avoided.
+- Names are kept clear and descriptive so the purpose of each object is easy to recognise.
 
 ## Schema Conventions
 
-Schemas are used to separate the warehouse layers:
+The warehouse is organised into three schemas that reflect the project architecture:
 
 | Schema | Purpose |
 |---|---|
-| `bronze` | Raw source data loaded as received |
-| `silver` | Cleaned and standardised data |
-| `gold` | Business-ready reporting tables and views |
+| `bronze` | Stores raw source data as received |
+| `silver` | Stores cleaned and standardised data |
+| `gold` | Stores business-ready reporting tables and views |
 
 ## Table Conventions
 
 ### Bronze
-Bronze tables retain source-oriented naming so the origin of each dataset remains clear.
+In the Bronze layer, table names stay close to the original source reports so the source of each dataset remains easy to trace.
 
 Pattern:
 `<source>_<report>`
 
 ### Silver
-Silver tables use cleaned operational names that reflect structured entities or reconciled datasets.
+In the Silver layer, table names reflect cleaned operational entities and reconciled datasets.
 
 Pattern:
 `<source>_<entity>` or `<domain>_<entity>`
 
 ### Gold
-Gold tables and views use business-facing names designed for analytics and reporting.
+In the Gold layer, table and view names follow business-facing naming aligned to analytics and reporting.
 
 Pattern:
 `<category>_<entity>`
 
-Common prefixes:
+Common prefixes used in Gold:
 - `dim_` for dimensions
 - `fact_` for fact tables
 - `report_` for reporting views or summary outputs
 
 ## Column Conventions
+
+Column names in this project follow the same naming style as tables and schemas.
 
 - Surrogate keys use the suffix `_key`, for example `user_key`.
 - Business fields use descriptive names such as `email_address`, `mobile_number`, and `cost_code`.
@@ -56,7 +58,7 @@ Common prefixes:
 
 ## Stored Procedure Conventions
 
-Stored procedures are named according to their purpose and warehouse layer.
+Stored procedures are named according to both their purpose and the warehouse layer they support.
 
 Pattern:
 `load_<layer>_<entity>`
@@ -68,7 +70,7 @@ Examples:
 
 ## Project Examples
 
-The following examples show how the naming convention is applied in this project:
+The examples below show how the naming convention is applied in this project:
 
 | Layer | Object Type | Example |
 |---|---|---|
@@ -78,4 +80,4 @@ The following examples show how the naming convention is applied in this project
 
 ## Final Note
 
-These conventions are intended to match the way the warehouse is actually built in this project. A consistent naming standard makes the solution easier to understand, easier to maintain, and stronger to present as a public portfolio project.
+These conventions reflect the structure used to build this project. Keeping naming consistent across the warehouse makes the solution easier to follow, easier to maintain, and more effective to present as a portfolio project.

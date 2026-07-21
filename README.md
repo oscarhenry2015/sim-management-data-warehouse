@@ -47,6 +47,8 @@ The solution is designed to answer business questions such as:
 ***
 
 ## Data Architecture
+<img width="1249" height="730" alt="image" src="https://github.com/user-attachments/assets/c2b58328-e125-4ef0-9f2d-ce2c977c65db" />
+
 
 This project follows a **Medallion Architecture** design using **Bronze**, **Silver**, and **Gold** layers.
 

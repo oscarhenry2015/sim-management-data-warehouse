@@ -77,7 +77,3 @@ The examples below show how the naming convention is applied in this project:
 | Bronze | Raw table | `bronze.vodafone_report` |
 | Silver | Cleansed table | `silver.sim_reconciliation` |
 | Gold | Fact table | `gold.fact_sim_assignment` |
-
-## Final Note
-
-These conventions reflect the structure used to build this project. Keeping naming consistent across the warehouse makes the solution easier to follow, easier to maintain, and more effective to present as a portfolio project.

@@ -29,19 +29,22 @@ IF OBJECT_ID('bronze.vodafone_report', 'U') IS NOT NULL
     DROP TABLE bronze.vodafone_report;
 GO
 
+IF OBJECT_ID('bronze.vodafone_report', 'U') IS NOT NULL
+    DROP TABLE bronze.vodafone_report;
+GO
+
 CREATE TABLE bronze.vodafone_report (
     vodafone_phone_number       NVARCHAR(50),
-    vodafone_user               NVARCHAR(50),
+    vodafone_user               NVARCHAR(100),
     vodafone_email              NVARCHAR(100),
-    vodafone_billing_account    NVARCHAR(50),
-    vodafone_corporate          NVARCHAR(50),
-    vodafone_subsidiary         NVARCHAR(50),
-    vodafone_status             NVARCHAR(50),
-    vodafone_status_sim_card    NVARCHAR(50),
-    vodafone_activation_date    DATE,
-    vodafone_suspended_date     DATE,
-    vodafone_price_plan         NVARCHAR(50),
-    vodafone_price_options      NVARCHAR(50),
+    vodafone_billing_account    NVARCHAR(255),
+    vodafone_corporate          NVARCHAR(255),
+    vodafone_subsidiary         NVARCHAR(255),
+    vodafone_status             NVARCHAR(255),
+    vodafone_status_sim_card    NVARCHAR(255),
+    vodafone_activation_date    NVARCHAR(255),
+    vodafone_suspended_date     NVARCHAR(255),
+    vodafone_price_plan         NVARCHAR(255),
     vodafone_address            NVARCHAR(50),
     vodafone_cost_code1         NVARCHAR(50),
     vodafone_cost_code2         NVARCHAR(50),

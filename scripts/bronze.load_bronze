@@ -1,0 +1,136 @@
+/*
+===============================================================================
+Stored Procedure: bronze.load_bronze
+===============================================================================
+Purpose:
+    Loads raw source files into the Bronze layer tables of the
+    sim_management_dw project.
+
+Source Files:
+    - ADManager report
+    - Vodafone report
+    - Mobile rollout list
+
+Process:
+    - Truncates the target Bronze tables
+    - Bulk loads the latest source files
+    - Prints load progress and duration
+    - Returns error details if the load fails
+
+Note:
+    This procedure is intended for development and controlled
+    data refresh scenarios where full reloads are acceptable.
+===============================================================================
+*/
+
+CREATE OR ALTER PROCEDURE bronze.load_bronze AS
+BEGIN
+    -- Declare timing variables for table-level and batch-level load tracking
+    DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME;
+
+    -- Start error handling for the full Bronze load process
+    BEGIN TRY
+        -- Capture the start time for the overall Bronze load
+        SET @batch_start_time = GETDATE();
+
+        PRINT '============================================================';
+        PRINT 'Bronze load started';
+        PRINT '============================================================';
+
+        PRINT 'Loading source: ADManager report';
+
+        -- Capture the start time for the ADManager table load
+        SET @start_time = GETDATE();
+
+        -- Clear existing data before reloading the table
+        PRINT ' - Truncating bronze.admanager_report';
+        TRUNCATE TABLE bronze.admanager_report;
+
+        -- Load the ADManager source file into Bronze
+        PRINT ' - Inserting into bronze.admanager_report';
+        BULK INSERT bronze.admanager_report
+        FROM 'C:\Users\oscar\Desktop\MySQL\sql-sim-management-project\ADManager-Report-21-07-2026.csv'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+
+        -- Capture the end time for the ADManager load
+        SET @end_time = GETDATE();
+
+        -- Print the ADManager load duration
+        PRINT ' - Completed in ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR(20)) + ' seconds';
+        PRINT '------------------------------------------------------------';
+
+        PRINT 'Loading source: Vodafone report';
+
+        -- Capture the start time for the Vodafone table load
+        SET @start_time = GETDATE();
+
+        -- Clear existing Vodafone data before reloading
+        PRINT ' - Truncating bronze.vodafone_report';
+        TRUNCATE TABLE bronze.vodafone_report;
+
+        -- Load the Vodafone source file into Bronze
+        PRINT ' - Inserting into bronze.vodafone_report';
+        BULK INSERT bronze.vodafone_report
+        FROM 'C:\Users\oscar\Desktop\MySQL\sql-sim-management-project\vodafone-report-21-07-2026.csv'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+
+        -- Capture the end time for the Vodafone load
+        SET @end_time = GETDATE();
+
+        -- Print the Vodafone load duration
+        PRINT ' - Completed in ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR(20)) + ' seconds';
+        PRINT '------------------------------------------------------------';
+
+        PRINT 'Loading source: Mobile rollout list';
+
+        -- Capture the start time for the mobile rollout table load
+        SET @start_time = GETDATE();
+
+        -- Clear existing mobile rollout data before reloading
+        PRINT ' - Truncating bronze.mobile_rollout_list';
+        TRUNCATE TABLE bronze.mobile_rollout_list;
+
+        -- Load the mobile rollout source file into Bronze
+        PRINT ' - Inserting into bronze.mobile_rollout_list';
+        BULK INSERT bronze.mobile_rollout_list
+        FROM 'C:\Users\oscar\Desktop\MySQL\sql-sim-management-project\mobile-rollout-list.csv'
+        WITH (
+            FIRSTROW = 2,
+            FIELDTERMINATOR = ',',
+            TABLOCK
+        );
+
+        -- Capture the end time for the mobile rollout load
+        SET @end_time = GETDATE();
+
+        -- Print the mobile rollout load duration
+        PRINT ' - Completed in ' + CAST(DATEDIFF(SECOND, @start_time, @end_time) AS NVARCHAR(20)) + ' seconds';
+        PRINT '------------------------------------------------------------';
+
+        -- Capture the end time for the full Bronze batch
+        SET @batch_end_time = GETDATE();
+
+        -- Print completion message for the full Bronze load
+        PRINT 'Bronze load completed';
+        PRINT 'Total duration: ' + CAST(DATEDIFF(SECOND, @batch_start_time, @batch_end_time) AS NVARCHAR(20)) + ' seconds';
+        PRINT '============================================================';
+    END TRY
+    BEGIN CATCH
+        -- Print error details if the Bronze load fails
+        PRINT '============================================================';
+        PRINT 'Bronze load failed';
+        PRINT 'Error message: ' + ERROR_MESSAGE();
+        PRINT 'Error number : ' + CAST(ERROR_NUMBER() AS NVARCHAR(20));
+        PRINT 'Error state  : ' + CAST(ERROR_STATE() AS NVARCHAR(20));
+        PRINT '============================================================';
+    END CATCH
+END
+GO

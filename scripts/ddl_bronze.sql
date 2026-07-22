@@ -32,7 +32,7 @@ GO
 CREATE TABLE bronze.vodafone_report (
     vodafone_phone_number       NVARCHAR(50),
     vodafone_user               NVARCHAR(50),
-    vodafone_email              NVARCHAR(50),
+    vodafone_email              NVARCHAR(100),
     vodafone_billing_account    NVARCHAR(50),
     vodafone_corporate          NVARCHAR(50),
     vodafone_subsidiary         NVARCHAR(50),

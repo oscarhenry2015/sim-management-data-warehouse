@@ -18,7 +18,7 @@ GO
 CREATE TABLE bronze.admanager_report (
     admanager_serial_number    INT,
     admanager_sam_account_name NVARCHAR(50),
-    admanager_email_address    NVARCHAR(50),
+    admanager_email_address    NVARCHAR(100),
     admanager_telephone_number NVARCHAR(50),
     admanager_mobile           NVARCHAR(50),
 );
